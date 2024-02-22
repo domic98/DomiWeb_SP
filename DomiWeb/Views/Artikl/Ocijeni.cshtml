@@ -1,0 +1,24 @@
+﻿@model Artikl
+
+
+<h2>Ocijeni artikl</h2>
+
+<div style="text-align: center;">
+    <img src="~/images/stars.png" alt="Slika artikla" style="max-width:500px; max-height: 500px; margin-bottom: 20px;" />
+
+    <form asp-action="Ocijeni" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div style="margin-bottom: 10px;">
+            <label for="ocjena">Ocjena:</label>
+            <input type="number" name="ocjena" id="ocjena" min="1" max="5" step="1" />
+        </div>
+        <div>
+            <button type="submit" class="btn btn-secondary mx-2">
+                <i class="bi bi-star-half"></i>  Ocijeni Artikl
+
+            </button>
+        </div>
+       
+        
+    </form>
+</div>
