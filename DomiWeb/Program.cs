@@ -2,6 +2,9 @@ using DomiWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Microsoft.AspNetCore.Identity;
+using System.Configuration;
+using DomiWeb.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace DomiWeb
 {
@@ -20,7 +23,13 @@ namespace DomiWeb
             builder.Services.AddDbContext<ApplicationDbContext>(options => 
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+           
+
+            builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            builder.Services.AddRazorPages();
+            builder.Services.AddScoped<IEmailSender,EmailSender>();    
 
             var app = builder.Build();
 
@@ -40,11 +49,16 @@ namespace DomiWeb
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+
+            app.MapRazorPages();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Artikl}/{action=Index}/{id?}");
 
             app.Run();
         }

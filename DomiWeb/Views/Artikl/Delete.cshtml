@@ -35,7 +35,7 @@
         </div> *@
         <div class="row">
             <div class="col-6">
-                <button type="submit" class="btn btn-danger form-control">Obriši</button>
+                <button type="submit" id="deleteButton" class="btn btn-danger form-control">Obriši</button>
             </div>
             <div class="col-6">
                 <a asp-controller="Artikl" asp-action="Index" class="btn btn-outline-secondary border form-control">
@@ -46,3 +46,11 @@
 
     </div>
 </form>
+
+
+@section Scripts {
+    @{
+        
+        <script src="~/js/sweetAlertScript.js"></script>
+    }
+}

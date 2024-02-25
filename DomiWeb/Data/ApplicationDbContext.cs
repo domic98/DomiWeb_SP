@@ -1,19 +1,23 @@
 ﻿using DomiWeb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DomiWeb.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
-    {
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser> 
+      { 
+    
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
 
         public DbSet<Artikl> Artikli { get; set; }
-
-       // public DbSet<Ocijena> Ocijene { get; set; }
+        
+       // public DbSet<ApplicationUser> ApplicationUsers { get; set; } -- extend polja za Identity
+       
+        // public DbSet<Ocijena> Ocijene { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,3 +35,4 @@ namespace DomiWeb.Data
         }
     }
 }
+
