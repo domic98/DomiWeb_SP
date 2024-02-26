@@ -58,6 +58,7 @@
     <tbody>
         @foreach (var obj in Model) 
         {
+        @*  @if (Model != null) { *@
         <tr>
             <td>@obj.Id</td>
             <td>@obj.Naziv</td>
@@ -68,6 +69,7 @@
            </td>
                     <td>@obj.Ocjena</td>
             <td>
+            
                 <div class="w-75 btn-group" role="group">
                             @if (User.IsInRole(DomiWeb.Models.HelperClass.Role_User))
                             {
@@ -87,8 +89,13 @@
                             }
                         </div>
             </td>
-        </tr>
-        }
+                    </tr>
+                @* } *@
+                @* else
+                {
+                    <p>Model je null.</p>
+                } *@
+            }
     </tbody>
 </table>
 

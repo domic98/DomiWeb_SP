@@ -115,7 +115,7 @@ namespace DomiWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if(!_roleManager.RoleExistsAsync(Models.HelperClass.Role_Admin).GetAwaiter().GetResult())
+            if(!_roleManager.RoleExistsAsync(Models.HelperClass.Role_User).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(Models.HelperClass.Role_Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(Models.HelperClass.Role_User)).GetAwaiter().GetResult();

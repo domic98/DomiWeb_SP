@@ -3,20 +3,32 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace DomiWeb.Migrations
 {
     /// <inheritdoc />
-    public partial class AddImageUrlToArtikl : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "ImageUrl",
-                table: "Artikli",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+            migrationBuilder.CreateTable(
+                name: "Artikli",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Kategorija = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cijena = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Ocjena = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Artikli", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
@@ -103,8 +115,8 @@ namespace DomiWeb.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -148,8 +160,8 @@ namespace DomiWeb.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -163,40 +175,17 @@ namespace DomiWeb.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "Artikli",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "ImageUrl",
-                value: "");
-
-            migrationBuilder.UpdateData(
-                table: "Artikli",
-                keyColumn: "Id",
-                keyValue: 2,
-                column: "ImageUrl",
-                value: "");
-
-            migrationBuilder.UpdateData(
-                table: "Artikli",
-                keyColumn: "Id",
-                keyValue: 3,
-                column: "ImageUrl",
-                value: "");
-
-            migrationBuilder.UpdateData(
-                table: "Artikli",
-                keyColumn: "Id",
-                keyValue: 4,
-                column: "ImageUrl",
-                value: "");
-
-            migrationBuilder.UpdateData(
-                table: "Artikli",
-                keyColumn: "Id",
-                keyValue: 5,
-                column: "ImageUrl",
-                value: "");
+                columns: new[] { "Id", "Cijena", "ImageUrl", "Kategorija", "Naziv", "Ocjena" },
+                values: new object[,]
+                {
+                    { 1, 12m, "", "Voće", "Banane", 0 },
+                    { 2, 14m, "", "Voće", "Jabuke", 0 },
+                    { 3, 11m, "", "Voće", "Kruške", 0 },
+                    { 4, 10m, "", "Povrće", "Krastavac", 0 },
+                    { 5, 9m, "", "Povrće", "Paprika", 0 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -242,6 +231,9 @@ namespace DomiWeb.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Artikli");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -261,10 +253,6 @@ namespace DomiWeb.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "ImageUrl",
-                table: "Artikli");
         }
     }
 }

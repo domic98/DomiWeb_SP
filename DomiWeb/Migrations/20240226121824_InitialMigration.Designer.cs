@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomiWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240220195351_AddImageUrlToArtikl")]
-    partial class AddImageUrlToArtikl
+    [Migration("20240226121824_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,9 +48,12 @@ namespace DomiWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Ocjena")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Artikli");
+                    b.ToTable("Artikli", (string)null);
 
                     b.HasData(
                         new
@@ -59,7 +62,8 @@ namespace DomiWeb.Migrations
                             Cijena = 12m,
                             ImageUrl = "",
                             Kategorija = "Voće",
-                            Naziv = "Banane"
+                            Naziv = "Banane",
+                            Ocjena = 0
                         },
                         new
                         {
@@ -67,7 +71,8 @@ namespace DomiWeb.Migrations
                             Cijena = 14m,
                             ImageUrl = "",
                             Kategorija = "Voće",
-                            Naziv = "Jabuke"
+                            Naziv = "Jabuke",
+                            Ocjena = 0
                         },
                         new
                         {
@@ -75,7 +80,8 @@ namespace DomiWeb.Migrations
                             Cijena = 11m,
                             ImageUrl = "",
                             Kategorija = "Voće",
-                            Naziv = "Kruške"
+                            Naziv = "Kruške",
+                            Ocjena = 0
                         },
                         new
                         {
@@ -83,7 +89,8 @@ namespace DomiWeb.Migrations
                             Cijena = 10m,
                             ImageUrl = "",
                             Kategorija = "Povrće",
-                            Naziv = "Krastavac"
+                            Naziv = "Krastavac",
+                            Ocjena = 0
                         },
                         new
                         {
@@ -91,7 +98,8 @@ namespace DomiWeb.Migrations
                             Cijena = 9m,
                             ImageUrl = "",
                             Kategorija = "Povrće",
-                            Naziv = "Paprika"
+                            Naziv = "Paprika",
+                            Ocjena = 0
                         });
                 });
 
@@ -240,12 +248,10 @@ namespace DomiWeb.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -282,12 +288,10 @@ namespace DomiWeb.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
