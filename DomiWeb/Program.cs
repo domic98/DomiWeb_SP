@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Configuration;
 using DomiWeb.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using DomiWeb.Repository.IRepository;
+using DomiWeb.Repository;
 
 namespace DomiWeb
 {
@@ -23,6 +25,7 @@ namespace DomiWeb
             builder.Services.AddDbContext<ApplicationDbContext>(options => 
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<IArtiklRepository, ArtiklRepository>();
         
 
             builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)

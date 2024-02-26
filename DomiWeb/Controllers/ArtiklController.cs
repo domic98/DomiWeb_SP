@@ -1,5 +1,6 @@
 ﻿using DomiWeb.Data;
 using DomiWeb.Models;
+using DomiWeb.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,29 +14,29 @@ namespace DomiWeb.Controllers
 {
     public class ArtiklController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IArtiklRepository _artiklRepo;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ArtiklController(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
+        public ArtiklController(IArtiklRepository db, IWebHostEnvironment webHostEnvironment)
         {
-            _db = db;
+            _artiklRepo = db;
             _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
             try
             {
-                List<Artikl> objArtiklList = _db.Artikli.ToList();
+                List<Artikl> objArtiklList = _artiklRepo.GetAll().ToList();
 
                 return View(objArtiklList);
 
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
-                
+
                 return View("Error");
             }
-            
+
         }
 
         [Authorize(Roles = Models.HelperClass.Role_Admin)]
@@ -62,8 +63,8 @@ namespace DomiWeb.Controllers
                     obj.ImageUrl = "/images/" + file.FileName;
                 }
 
-                _db.Artikli.Add(obj);
-                _db.SaveChanges();
+                _artiklRepo.Add(obj);
+                _artiklRepo.Save();
 
                 TempData["success"] = "Artikl je uspješno kreiran";
 
@@ -84,7 +85,9 @@ namespace DomiWeb.Controllers
                     return NotFound();
                 }
 
-                Artikl? artiklFromDb = _db.Artikli.Find(id);
+
+                Artikl? artiklFromDb = _artiklRepo.Get(u => u.Id == id);
+
                 if (artiklFromDb == null)
                 {
                     return NotFound();
@@ -101,7 +104,7 @@ namespace DomiWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var artiklFromDb = _db.Artikli.Find(obj.Id);
+                var artiklFromDb = _artiklRepo.Get(u => u.Id == obj.Id); 
 
                 if (artiklFromDb == null)
                 {
@@ -135,9 +138,9 @@ namespace DomiWeb.Controllers
                     artiklFromDb.ImageUrl = "/images/" + file.FileName;
                 }
 
-        
-        _db.Artikli.Update(artiklFromDb);
-                _db.SaveChanges();
+
+                _artiklRepo.Update(artiklFromDb);
+                _artiklRepo.Save();
 
                 TempData["success"] = "Artikl je uspješno izmijenjen";
 
@@ -157,8 +160,8 @@ namespace DomiWeb.Controllers
                     return NotFound();
                 }
 
-                Artikl? artiklFromDb = _db.Artikli.Find(id);
-                if (artiklFromDb == null)
+                Artikl? artiklFromDb = _artiklRepo.Get(u => u.Id == id);
+            if (artiklFromDb == null)
                 {
                     return NotFound();
                 }
@@ -170,15 +173,15 @@ namespace DomiWeb.Controllers
             public IActionResult DeletePOST(int? id)
 
             {
-                Artikl? obj = _db.Artikli.Find(id);
+                Artikl? obj = _artiklRepo.Get(u => u.Id == id);
 
-                if (obj == null)
+             if (obj == null)
                 {
                     return NotFound();
                 }
 
-                _db.Artikli.Remove(obj);
-                _db.SaveChanges();
+                _artiklRepo.Remove(obj);
+                _artiklRepo.Save();
 
                 TempData["success"] = "Artikl je uspješno uklonjen";
 
@@ -193,10 +196,10 @@ namespace DomiWeb.Controllers
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
                 // Dohvati podatke iz baze koje želimo spremiti u Excel
-                var data = _db.Artikli.ToList();
+                var data = _artiklRepo.GetAll().ToList();
 
-                // Kreiraj novu ExcelPackage
-                using (var package = new ExcelPackage())
+            // Kreiraj novu ExcelPackage
+              using (var package = new ExcelPackage())
                 {
                     // Dodaj listu u ExcelPackage
                     var worksheet = package.Workbook.Worksheets.Add("Artikli");
@@ -232,7 +235,7 @@ namespace DomiWeb.Controllers
         [Authorize(Roles = Models.HelperClass.Role_User)]
         public IActionResult Ocijeni(int id)
          {
-            var obj = _db.Artikli.Find(id);
+            var obj = _artiklRepo.Get(u => u.Id == id);
             return View(obj);
          }
 
@@ -241,14 +244,14 @@ namespace DomiWeb.Controllers
         [Authorize(Roles = Models.HelperClass.Role_User)]
         public IActionResult Ocijeni(int id, int ocjena)
         {
-            var obj = _db.Artikli.Find(id);
+            var obj = _artiklRepo.Get(u => u.Id == id);
 
             // Provjera je li korisnik već ocijenio artikl
             if (obj != null && obj.Ocjena == 0)
             {
                 // Ako korisnik nije ocijenio, postavi ocjenu i spremi u bazu
                 obj.Ocjena = ocjena;
-                _db.SaveChanges();
+                _artiklRepo.Save();
 
                 TempData["success"] = "Artikl je uspješno ocijenjen!";
             }
