@@ -240,6 +240,7 @@ namespace DomiWeb.Controllers
          }
 
 
+
         [HttpPost]
         [Authorize(Roles = Models.HelperClass.Role_User)]
         public IActionResult Ocijeni(int id, int ocjena)
@@ -259,6 +260,13 @@ namespace DomiWeb.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public IActionResult ShowInfo()
+        {
+            
+      
+            return View();
+        }
 
     }
 }

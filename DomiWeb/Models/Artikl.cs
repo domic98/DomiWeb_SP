@@ -30,8 +30,9 @@ namespace DomiWeb.Models
         public string ImageUrl { get; set; }
 
         public int Ocjena { get; set; }
+
         
-       
-      
+        
+
     }
 }
