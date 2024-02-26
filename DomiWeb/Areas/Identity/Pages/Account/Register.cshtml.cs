@@ -106,7 +106,7 @@ namespace DomiWeb.Areas.Identity.Pages.Account
 
 
             // kod registracije se nudi i rola koju želimo odabrati za novo registriranog korisnika (loš pristup)
-           // public string? Role {  get; set; }
+            public string? Role {  get; set; }
             
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
@@ -115,7 +115,7 @@ namespace DomiWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if(_roleManager.RoleExistsAsync(Models.HelperClass.Role_Admin).GetAwaiter().GetResult())
+            if(!_roleManager.RoleExistsAsync(Models.HelperClass.Role_Admin).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(Models.HelperClass.Role_Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(Models.HelperClass.Role_User)).GetAwaiter().GetResult();
@@ -152,14 +152,16 @@ namespace DomiWeb.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    //if(String.IsNullOrEmpty(Models.HelperClass.Role_Admin))
-                    //{
-                    //    await _userManager.AddToRoleAsync(user, Input.Role.Ror);
-                    //}
-                    //else
-                    //{
-                    //    await _userManager.AddToRoleAsync(user, Models.HelperClass.Role_Admin);
-                    //}
+                    // Provjera se ako nije dodana rola da automatski dodijeli Admin rolu 
+
+                    if (String.IsNullOrEmpty(Input.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, Models.HelperClass.Role_Admin);
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -197,7 +199,7 @@ namespace DomiWeb.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<ApplicationUser>();
+                return Activator.CreateInstance<IdentityUser>();
             }
             catch
             {

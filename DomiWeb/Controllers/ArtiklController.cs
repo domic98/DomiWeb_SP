@@ -1,5 +1,6 @@
 ﻿using DomiWeb.Data;
 using DomiWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,12 +26,13 @@ namespace DomiWeb.Controllers
             return View(objArtiklList);
         }
 
-
+        [Authorize(Roles = Models.HelperClass.Role_Admin)]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = Models.HelperClass.Role_Admin)]
         [HttpPost]
         public IActionResult Create(Artikl obj, IFormFile file)
         {
@@ -61,53 +63,8 @@ namespace DomiWeb.Controllers
 
         }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-
-        //            if (file != null && file.Length > 0)
-        //            {
-        //                // Pohranite sliku i postavite putanju
-        //                string uploadFolder = Path.Combine(_webHostEnvironment.WebRootPath, @"images\product");
-        //                string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-        //                string filePath = Path.Combine(uploadFolder, uniqueFileName);
-
-        //                using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //                {
-        //                    file.CopyTo(fileStream);
-        //                }
-
-        //                obj.ImageUrl = @"\images\product\" + uniqueFileName;
-        //            }
-
-        //            // Spremi artikl u bazu
-        //            _db.Artikli.Add(obj);
-        //            _db.SaveChanges();
-
-        //            TempData["success"] = "Artikl je uspješno dodan";
-
-        //            return RedirectToAction("Index");
-
-        //        }
-
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine(e.Message);
-        //            ModelState.AddModelError("", "Došlo je do problema sa spremanjem slike!");
-        //        }
-        //    }
-        //    // Ako nije uspjelo, vrati obrazac s podacima o artiklu
-        //    return View();
-
-        //}
-
-
-
-
-
-
-
+      
+        [Authorize(Roles = Models.HelperClass.Role_Admin)]
         public IActionResult Edit(int? id)
             {
                 if (id == null || id == 0)
@@ -127,6 +84,7 @@ namespace DomiWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = Models.HelperClass.Role_Admin)]
         public IActionResult Edit(Artikl obj, IFormFile file)
         {
             if (ModelState.IsValid)
@@ -177,25 +135,9 @@ namespace DomiWeb.Controllers
             return View(obj);
         }
 
-        //[HttpPost]
-        //public IActionResult Edit(Artikl obj)
-        //{
-        //    if (ModelState.IsValid) {
-        //        _db.Artikli.Update(obj);
-        //        _db.SaveChanges();
+      
 
-        //        TempData["success"] = "Artikl je uspješno izmijenjen";
-
-        //        return RedirectToAction("Index");
-
-        //    }
-
-        //    return View();
-
-        //}
-
-
-
+        [Authorize(Roles = Models.HelperClass.Role_Admin)]
         public IActionResult Delete(int? id)
             {
                 if (id == null || id == 0)
@@ -211,7 +153,8 @@ namespace DomiWeb.Controllers
                 return View(artiklFromDb);
             }
 
-            [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = Models.HelperClass.Role_Admin)]
+        [HttpPost, ActionName("Delete")]
             public IActionResult DeletePOST(int? id)
 
             {
@@ -273,13 +216,17 @@ namespace DomiWeb.Controllers
 
             }
 
-         public IActionResult Ocijeni(int id)
+
+        [Authorize(Roles = Models.HelperClass.Role_User)]
+        public IActionResult Ocijeni(int id)
          {
             var obj = _db.Artikli.Find(id);
             return View(obj);
          }
 
+
         [HttpPost]
+        [Authorize(Roles = Models.HelperClass.Role_User)]
         public IActionResult Ocijeni(int id, int ocjena)
         {
             var obj = _db.Artikli.Find(id);
