@@ -6,9 +6,11 @@ using System.Net.Http.Headers;
 
 namespace DomiWeb.Models
 {
+    [Table("Artikli")]
     public class Artikl
     {
         [Key]
+        
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 

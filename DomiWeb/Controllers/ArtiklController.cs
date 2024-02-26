@@ -22,8 +22,20 @@ namespace DomiWeb.Controllers
         }
         public IActionResult Index()
         {
-            List<Artikl> objArtiklList = _db.Artikli.ToList();
-            return View(objArtiklList);
+            try
+            {
+                List<Artikl> objArtiklList = _db.Artikli.ToList();
+
+                return View(objArtiklList);
+
+            }
+            catch (Exception e) 
+            {
+                ViewBag.ErrorMessage = e.Message;
+                
+                return View("Error");
+            }
+            
         }
 
         [Authorize(Roles = Models.HelperClass.Role_Admin)]
