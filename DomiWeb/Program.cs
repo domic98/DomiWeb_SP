@@ -35,8 +35,11 @@ namespace DomiWeb
 
             // Konfiguracija Identity usluge s korištenjem IdentityUser i IdentityRole klasa.
 
-            builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddIdentity<IdentityUser,IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+
+            builder.Services.AddRazorPages();
 
             // Konfiguracija opcija za Application Cookie u Identity sustavu.
 
@@ -48,7 +51,7 @@ namespace DomiWeb
             });
 
 
-            builder.Services.AddRazorPages();
+            
 
             builder.Services.AddScoped<IEmailSender,EmailSender>();    
 

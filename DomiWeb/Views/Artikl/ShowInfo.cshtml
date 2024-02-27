@@ -1,27 +1,37 @@
 ﻿@model Artikl
-@* 
-<div id="particlestwo-js"></div>
- *@
+
+<div id="particlestwo-js">
+
 <h2 class="text-center">Informacije o korisnicima</h2>
 
 <hr />
 
 <div class="user-container">
     <div class="user">
-        <p><b>Admin account</b></p>
-        <p><i><b>Username:</i></b>  admin@supersport.hr</p>
-        <p><i><b>Password:</i></b>  #AdminSuperSport123</p>
+        <p><b>Admin account 1 </b></p>
+        <p><i><b>Username:</i></b>  admin@supersport.hr ili </p>
+        <p><i><b>Password:</i></b>  #AdminSuperSport123 </p>
+        <p>-----------------------------------------------------------</p>
+           <p><b>Admin account 2 </b></p>
+            <p><i><b>Username:</i></b>  Admin1@supersport.com </p>
+            <p><i><b>Password:</i></b>  !Admin098 </p>
+
         <p> Admin može dodavati nove artikle, brisati ih te ih uređivati.</p>
     </div>
     <hr />
     <div class="user">
-        <p><b>User account</b></p>
+        <p><b>User account 1</b></p>
         <p><i><b>Username:</i></b>  user@supersport.hr</p>
         <p><i><b>Password:</i></b>  #UserSuperSport123</p>
+            <p>-----------------------------------------------------------</p>
+            <p><b>User account 2</b></p>
+            <p><i><b>Username:</i></b>  User2@supersport.com</p>
+            <p><i><b>Password:</i></b>  !User098</p>
+
         <p>User može samo ocjenjivati artikle i skinuti Excel tablicu</p>
     </div>
 </div>
-
+</div>
 
 <div class="col-12  pt-2 justify-content-center">
     <a asp-controller="Artikl" asp-action="Index" class="btn btn-outline-secondary border form-control">
@@ -29,10 +39,11 @@
     </a>
 </div>
 
-@* @section Scripts {
+@section Scripts {
     @{
         <script src="~/js/particlestwo.js"></script>
 
     }
-} *@
+}
 
+        

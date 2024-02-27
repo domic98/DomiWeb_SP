@@ -154,13 +154,13 @@ namespace DomiWeb.Areas.Identity.Pages.Account
 
                     // Provjera se ako nije dodana rola da automatski dodijeli Admin rolu 
 
-                    if (String.IsNullOrEmpty(Input.Role))
+                    if (!String.IsNullOrEmpty(Input.Role))
                     {
                         await _userManager.AddToRoleAsync(user, Input.Role);
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user, Models.HelperClass.Role_User);
+                        await _userManager.AddToRoleAsync(user, Models.HelperClass.Role_Admin);
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);

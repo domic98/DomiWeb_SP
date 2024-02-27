@@ -69,7 +69,7 @@
         }
     },
     "interactivity": {
-        "detect_on": "canvas",
+        "detect_on": "canvas", //canvas
         "events": {
             "onhover": {
                 "enable": true,
@@ -77,7 +77,7 @@
             },
             "onclick": {
                 "enable": true,
-                "mode": "repulse"
+                "mode": "repulse" //repulse
             },
             "resize": true
         },
