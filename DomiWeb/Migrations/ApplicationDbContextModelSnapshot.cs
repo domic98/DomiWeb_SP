@@ -50,7 +50,7 @@ namespace DomiWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Artikli", (string)null);
+                    b.ToTable("Artikli");
 
                     b.HasData(
                         new

@@ -22,14 +22,23 @@ namespace DomiWeb
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Konfiguracija Dependency Injection za DbContext (ApplicationDbContext) s SQL Server bazom podataka.
+
             builder.Services.AddDbContext<ApplicationDbContext>(options => 
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Dodavanje servisa u Dependency Injection kontejner.
+            // Scoped servis koji implementira IArtiklRepository koristi se tijekom trajanja jednog HTTP zahtjeva.
+
             builder.Services.AddScoped<IArtiklRepository, ArtiklRepository>();
-        
+
+
+            // Konfiguracija Identity usluge s korištenjem IdentityUser i IdentityRole klasa.
 
             builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            // Konfiguracija opcija za Application Cookie u Identity sustavu.
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
@@ -40,6 +49,7 @@ namespace DomiWeb
 
 
             builder.Services.AddRazorPages();
+
             builder.Services.AddScoped<IEmailSender,EmailSender>();    
 
             var app = builder.Build();

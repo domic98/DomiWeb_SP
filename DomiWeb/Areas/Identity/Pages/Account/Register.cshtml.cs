@@ -160,7 +160,7 @@ namespace DomiWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user, Models.HelperClass.Role_Admin);
+                        await _userManager.AddToRoleAsync(user, Models.HelperClass.Role_User);
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);

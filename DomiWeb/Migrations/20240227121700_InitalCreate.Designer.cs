@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomiWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240226121824_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240227121700_InitalCreate")]
+    partial class InitalCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,7 +53,7 @@ namespace DomiWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Artikli", (string)null);
+                    b.ToTable("Artikli");
 
                     b.HasData(
                         new

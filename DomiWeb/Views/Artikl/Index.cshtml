@@ -8,6 +8,7 @@
 
 @*<h1>Lista Artikla</h1>*@
 <div class="container">
+   
     <div class="row pt-4 pb-3">
         <div class="col-6">
             <h2 class="text-primary">
@@ -60,8 +61,8 @@
         {
         @*  @if (Model != null) { *@
         <tr>
-            <td>@obj.Id</td>
-            <td>@obj.Naziv</td>
+            <td>@obj.Id</td>             
+            <td>@obj.Naziv</td> 
             <td>@obj.Kategorija</td>
             <td>@obj.Cijena</td>
            <td>
@@ -101,10 +102,13 @@
 
 </div>
 
+
 @section Scripts {
     @{
         <script src="~/js/slike.js"></script>
         <script src="~/js/sweetAlertScript.js"></script>
+        <script src="~/js/hoverImage.js"></script>
+        
     }
 }
 

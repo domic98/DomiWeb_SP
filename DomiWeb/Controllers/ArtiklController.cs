@@ -25,6 +25,8 @@ namespace DomiWeb.Controllers
         {
             try
             {
+                // Dohvaćanje svih artikala iz repozitorija koristeći metodu `GetAll()` i pretvaranje rezultata u listu.
+
                 List<Artikl> objArtiklList = _artiklRepo.GetAll().ToList();
 
                 return View(objArtiklList);
@@ -52,25 +54,41 @@ namespace DomiWeb.Controllers
 
             if (ModelState.IsValid)
             {
+                // Provjera postojanja i veličine datoteke.
 
                 if (file != null && file.Length > 0)
                 {
+                    // Kreiranje putanje za spremanje slike u wwwroot/images folder.
+
                     var imagePath = Path.Combine("wwwroot/images", Path.GetFileName(file.FileName));
+
+                    // Kopiranje slike u definiranu putanju.
+
                     using (var stream = new FileStream(imagePath, FileMode.Create))
                     {
                         file.CopyTo(stream);
                     }
+
+                    // Postavljanje ImageUrl svojstva objekta na putanju do spremljene slike.
+
                     obj.ImageUrl = "/images/" + file.FileName;
                 }
+                // Dodavanje novog artikla u repozitorij.
 
                 _artiklRepo.Add(obj);
+
+
                 _artiklRepo.Save();
+
+                // Postavljanje TempData poruke o uspješnom stvaranju artikla. (popup)
 
                 TempData["success"] = "Artikl je uspješno kreiran";
 
                 return RedirectToAction("Index");
 
             }
+
+            // Ako ModelState nije ispravan, vraća se View s trenutnim objektom artikla
 
             return View();
 
@@ -80,19 +98,27 @@ namespace DomiWeb.Controllers
         [Authorize(Roles = Models.HelperClass.Role_Admin)]
         public IActionResult Edit(int? id)
             {
-                if (id == null || id == 0)
+            // Provjera je li ID artikla valjan.
+
+            if (id == null || id == 0)
                 {
                     return NotFound();
                 }
 
+                // Dohvaćanje artikla iz repozitorija temeljem ID-a.
 
-                Artikl? artiklFromDb = _artiklRepo.Get(u => u.Id == id);
+                Artikl ? artiklFromDb = _artiklRepo.Get(u => u.Id == id);
 
-                if (artiklFromDb == null)
+            // Provjera postojanja artikla.
+
+            if (artiklFromDb == null)
                 {
                     return NotFound();
                 }
-                return View(artiklFromDb);
+
+            // Prikazivanje View-a s podacima artikla za uređivanje.
+
+            return View(artiklFromDb);
         }
 
 
